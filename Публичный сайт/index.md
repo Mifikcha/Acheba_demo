@@ -44,15 +44,15 @@ title: Hopes and Dreams
     </div>
     <div class="home-module-row" role="row">
       <span class="home-module-subject" role="rowheader">Физика</span>
-      <span role="cell"><a class="home-module-link home-module-physics" href="./физика/"><span class="home-module-mark" aria-hidden="true"></span><span class="home-module-copy"><small>PHY / DEMO</small><strong>Демонстрационный модуль Физики</strong><span class="home-module-summary">МКТ · теория · 2 разбора · тренировки</span></span><span class="home-module-arrow" aria-hidden="true"></span></a></span>
+      <span role="cell"><a class="home-module-link" href="./физика/"><span class="home-module-copy"><small>PHY / DEMO</small><strong>Демонстрационный модуль Физики</strong><span class="home-module-summary">МКТ · теория · 2 разбора · тренировки</span></span><span class="home-module-arrow" aria-hidden="true"></span></a></span>
     </div>
     <div class="home-module-row" role="row">
       <span class="home-module-subject" role="rowheader">Математика</span>
-      <span role="cell"><a class="home-module-link home-module-math" href="./математика/"><span class="home-module-mark" aria-hidden="true"></span><span class="home-module-copy"><small>MATH / DEMO</small><strong>Демонстрационный модуль Математики</strong><span class="home-module-summary">Функции · параметр · Desmos · тренировки</span></span><span class="home-module-arrow" aria-hidden="true"></span></a></span>
+      <span role="cell"><a class="home-module-link" href="./математика/"><span class="home-module-copy"><small>MATH / DEMO</small><strong>Демонстрационный модуль Математики</strong><span class="home-module-summary">Функции · параметр · Desmos · тренировки</span></span><span class="home-module-arrow" aria-hidden="true"></span></a></span>
     </div>
     <div class="home-module-row" role="row">
       <span class="home-module-subject" role="rowheader">Информатика</span>
-      <span role="cell"><a class="home-module-link home-module-cs" href="./информатика/"><span class="home-module-mark" aria-hidden="true"></span><span class="home-module-copy"><small>CS / DEMO</small><strong>Демонстрационный модуль Информатики</strong><span class="home-module-summary">Истинный фундамент · coding · разборы</span></span><span class="home-module-arrow" aria-hidden="true"></span></a></span>
+      <span role="cell"><a class="home-module-link" href="./информатика/"><span class="home-module-copy"><small>CS / DEMO</small><strong>Демонстрационный модуль Информатики</strong><span class="home-module-summary">Истинный фундамент · coding · разборы</span></span><span class="home-module-arrow" aria-hidden="true"></span></a></span>
     </div>
   </div>
 </section>
