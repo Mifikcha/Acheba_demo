@@ -32,7 +32,6 @@ import MobileOnly from "../../components/MobileOnly"
 import DesktopOnly from "../../components/DesktopOnly"
 import ConditionalRender from "../../components/ConditionalRender"
 import GraphResourcesConstructor from "../../components/GraphResources"
-import NoteCheatSheetConstructor from "../../components/NoteCheatSheet"
 import StudyPlayerConstructor from "../../components/StudyPlayer"
 
 const CONFIG_YAML_PATH = path.join(process.cwd(), "quartz.config.yaml")
@@ -637,11 +636,10 @@ function detectCategoryFromModule(module: unknown): ProcessingCategory | null {
 
 function addHopesComponents(layout: Partial<FullPageLayout>): void {
   const GraphResources = GraphResourcesConstructor()
-  const NoteCheatSheet = NoteCheatSheetConstructor()
   const StudyPlayer = StudyPlayerConstructor()
 
   layout.afterBody = [...(layout.afterBody ?? []), GraphResources]
-  layout.right = [StudyPlayer, NoteCheatSheet, ...(layout.right ?? [])]
+  layout.right = [StudyPlayer, ...(layout.right ?? [])]
 }
 
 export async function loadQuartzLayout(layoutOverrides?: {

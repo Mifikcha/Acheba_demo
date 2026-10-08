@@ -323,14 +323,6 @@ export function createCommandRegistry(): ConsoleCommand[] {
       },
     },
     {
-      name: "cheatsheet",
-      description: "cheatsheet control",
-      category: "INTERFACE",
-      subcommands: ["off", "on"],
-      hidden: true,
-      execute: () => unavailable("Cheatsheet control"),
-    },
-    {
       name: "sidebar",
       description: "sidebar layout control",
       category: "INTERFACE",

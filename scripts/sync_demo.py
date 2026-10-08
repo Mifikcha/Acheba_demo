@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SOURCE = Path(os.environ.get("HND_SOURCE_CONTENT", r"E:\Камень\Hopes and Dreams\Публичный сайт"))
 CONTENT = ROOT / "Публичный сайт"
 MANIFEST = ROOT / "scripts" / "demo_manifest.json"
+EDITS = ROOT / "scripts" / "demo_edits.json"
 
 
 def safe_path(base: Path, relative: str) -> Path:
@@ -52,10 +53,23 @@ def source_resource(reference: str) -> tuple[str, Path]:
     return relative, source
 
 
+def note_bytes(relative: str, edits: dict[str, list[list[str]]]) -> bytes:
+    source = safe_path(SOURCE, relative).read_bytes()
+    if relative not in edits:
+        return source
+    text = source.decode("utf-8").replace("\r\n", "\n")
+    for old, new in edits[relative]:
+        assert text.count(old) == 1, f"Editorial replacement is ambiguous: {relative}: {old[:40]}"
+        text = text.replace(old, new)
+    return text.replace("\n", "\r\n").encode("utf-8")
+
+
 def main() -> None:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    edits = json.loads(EDITS.read_text(encoding="utf-8"))
     notes = manifest["notes"]
     assert len(notes) == len(set(notes)), "Duplicate notes in manifest"
+    assert set(edits) <= set(notes), "Editorial edit outside the manifest"
     approved = set(notes)
     assets: dict[str, Path] = {}
     for relative in notes:
@@ -70,16 +84,16 @@ def main() -> None:
 
     if "--check" in sys.argv:
         for relative in notes:
-            assert safe_path(CONTENT, relative).read_bytes() == safe_path(SOURCE, relative).read_bytes(), relative
+            assert safe_path(CONTENT, relative).read_bytes() == note_bytes(relative, edits), relative
         for relative, source in assets.items():
             assert safe_path(CONTENT, relative).read_bytes() == source.read_bytes(), relative
-        print(f"Exact source copies verified: {len(notes)} notes, {len(assets)} assets")
+        print(f"Source notes and editorial edits verified: {len(notes)} notes, {len(assets)} assets")
         return
 
     for relative in notes:
         target = safe_path(CONTENT, relative)
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(safe_path(SOURCE, relative), target)
+        target.write_bytes(note_bytes(relative, edits))
     for relative, source in assets.items():
         target = safe_path(CONTENT, relative)
         target.parent.mkdir(parents=True, exist_ok=True)
