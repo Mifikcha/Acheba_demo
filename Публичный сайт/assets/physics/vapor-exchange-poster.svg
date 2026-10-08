@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-labelledby="title description">
+  <title id="title">Испарение и конденсация</title>
+  <desc id="description">Закрытый сосуд: голубые молекулы жидкости внизу, фиолетовые молекулы пара сверху; стрелки показывают переходы через поверхность в обе стороны.</desc>
+  <rect width="720" height="420" fill="#1a1b26"/>
+  <rect x="20" y="245" width="680" height="155" fill="#203349"/>
+  <rect x="20" y="20" width="680" height="380" fill="none" stroke="#565f89" stroke-width="2"/>
+  <path d="M20 245H700" stroke="#7dcfff" stroke-width="3"/>
+  <g fill="#9aa5ce" font-family="Arial,sans-serif" font-size="15"><text x="36" y="49">ПАР</text><text x="36" y="274">ЖИДКОСТЬ</text></g>
+  <g fill="#bb9af7">
+    <circle cx="112" cy="94" r="6"/><circle cx="209" cy="168" r="6"/><circle cx="296" cy="93" r="6"/><circle cx="391" cy="188" r="6"/><circle cx="485" cy="108" r="6"/><circle cx="606" cy="177" r="6"/><circle cx="542" cy="207" r="6"/>
+  </g>
+  <g fill="#7dcfff">
+    <circle cx="95" cy="321" r="5"/><circle cx="143" cy="370" r="5"/><circle cx="190" cy="292" r="5"/><circle cx="244" cy="349" r="5"/><circle cx="283" cy="282" r="5"/><circle cx="332" cy="378" r="5"/><circle cx="366" cy="307" r="5"/><circle cx="419" cy="358" r="5"/><circle cx="469" cy="290" r="5"/><circle cx="510" cy="372" r="5"/><circle cx="555" cy="321" r="5"/><circle cx="611" cy="286" r="5"/><circle cx="656" cy="357" r="5"/>
+  </g>
+  <g fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M260 263V210m-7 8 7-8 7 8M471 263V210m-7 8 7-8 7 8" stroke="#7dcfff"/>
+    <path d="M357 211v53m-7-8 7 8 7-8M584 211v53m-7-8 7 8 7-8" stroke="#e0af68"/>
+  </g>
+  <g font-family="Arial,sans-serif" font-size="13"><text x="218" y="190" fill="#7dcfff">испарение</text><text x="335" y="193" fill="#e0af68">конденсация</text></g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-labelledby="title desc">
+  <title id="title">Прямая и парабола с выколотой точкой</title>
+  <desc id="desc">Прямая y = −2,5x пересекает график y = −x² − 1 в точке x = 0,5. Точка x = 2 исключена и показана пустым кружком.</desc>
+  <rect width="640" height="360" fill="#1a1b26"/>
+  <path d="M320 0V360M0 60H640" stroke="#565f89" stroke-width="1.5"/>
+  <path d="M20 360 70 277.5 120 210 170 157.5 220 120 270 97.5 320 90 370 97.5 420 120 470 157.5 515 203" fill="none" stroke="#bb9af7" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M525 218 570 277.5 620 360" fill="none" stroke="#bb9af7" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M240 0 640 300" fill="none" stroke="#7dcfff" stroke-width="3"/>
+  <circle cx="370" cy="97.5" r="6" fill="#7dcfff"/>
+  <circle cx="520" cy="210" r="7" fill="#1a1b26" stroke="#e0af68" stroke-width="3"/>
+  <g fill="#c0caf5" font-family="Arial, sans-serif" font-size="17">
+    <text x="382" y="92">x = 0,5</text>
+    <text x="531" y="201">(2; −5) исключена</text>
+  </g>
+</svg>

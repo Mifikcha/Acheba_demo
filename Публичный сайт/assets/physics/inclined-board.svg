@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-labelledby="title desc">
+  <title id="title">Силы на бруске на наклонной доске</title>
+  <desc id="desc">Доска опирается на пол и стену. Сила тяжести направлена вниз, реакция опоры перпендикулярно доске, трение покоя вверх вдоль неё.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M1 1 7 4 1 7" fill="none" stroke="context-stroke" stroke-width="1.6"/></marker>
+  </defs>
+  <rect width="640" height="360" fill="#1a1b26"/>
+  <path d="M72 294H568M520 68V294" fill="none" stroke="#565f89" stroke-width="3"/>
+  <path d="M105 290 520 106" fill="none" stroke="#c0caf5" stroke-width="10" stroke-linecap="round"/>
+  <g transform="translate(300 198) rotate(-24)"><rect x="-44" y="-38" width="88" height="60" rx="5" fill="#414868" stroke="#a9b1d6" stroke-width="2"/></g>
+  <path d="M300 180v89" fill="none" stroke="#f7768e" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M300 180 264 100" fill="none" stroke="#7dcfff" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M300 180 371 148" fill="none" stroke="#e0af68" stroke-width="3" marker-end="url(#arrow)"/>
+  <g font-family="Arial, sans-serif" font-size="21" font-weight="600">
+    <text x="311" y="264" fill="#f7768e">mg</text>
+    <text x="244" y="94" fill="#7dcfff">N</text>
+    <text x="374" y="145" fill="#e0af68">Fтр</text>
+    <text x="526" y="207" fill="#a9b1d6">h</text>
+  </g>
+</svg>

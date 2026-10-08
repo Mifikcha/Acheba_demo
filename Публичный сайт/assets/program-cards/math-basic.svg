@@ -1,0 +1,63 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="320" height="140" viewBox="0 138 1200 525" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="card-vignette-gradient" x1="0" y1="0.5" x2="1" y2="0.5">
+      <stop offset="0" stop-color="#fff" stop-opacity="0" />
+      <stop offset="0.02" stop-color="#fff" stop-opacity="1" />
+      <stop offset="0.98" stop-color="#fff" stop-opacity="1" />
+      <stop offset="1" stop-color="#fff" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="card-corner-gradient" x1="0.5" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0" />
+      <stop offset="0.045" stop-color="#fff" stop-opacity="1" />
+      <stop offset="0.955" stop-color="#fff" stop-opacity="1" />
+      <stop offset="1" stop-color="#fff" stop-opacity="0" />
+    </linearGradient>
+    <mask id="card-vignette" maskUnits="userSpaceOnUse" x="0" y="138" width="1200" height="525">
+      <rect y="138" width="1200" height="525" fill="url(#card-vignette-gradient)" />
+    </mask>
+    <mask id="card-corner" maskUnits="userSpaceOnUse" x="0" y="138" width="1200" height="525">
+      <rect y="138" width="1200" height="525" fill="url(#card-corner-gradient)" />
+    </mask>
+  </defs>
+  <g mask="url(#card-corner)">
+    <g mask="url(#card-vignette)">
+      <g transform="scale(2,2)">
+        <g id="graphpaper-b615f5347ff84232" data-graph-part="graphpaper">
+          <g id="axis-4449275a240c434a">
+            <g id="yaxis-5b15578352ef48e4" data-graph-part="yaxis">
+              <g>
+                <path fill="none" stroke="rgb(0,0,0)" class="dcg-svg-axis-line" paint-order="fill stroke markers" d=" M 193 0 L 193 400" stroke-opacity="0.9" stroke-miterlimit="10" stroke-width="2" stroke-dasharray="" />
+              </g>
+            </g>
+            <g id="xaxis-2523c4ed97434643" data-graph-part="xaxis">
+              <g>
+                <path fill="none" stroke="rgb(0,0,0)" class="dcg-svg-axis-line" paint-order="fill stroke markers" d=" M 0 210 L 600 210" stroke-opacity="0.9" stroke-miterlimit="10" stroke-width="2" stroke-dasharray="" />
+              </g>
+            </g>
+            <g>
+              <g class="dcg-svg-axis-value"></g>
+              <g>
+                <path fill="none" stroke="rgb(0,0,0)" class="dcg-svg-tickmark" paint-order="fill stroke markers" d=" M 52 206 L 52 214 M 334 206 L 334 214 M 475 206 L 475 214 M 189 351 L 197 351 M 189 69 L 197 69" stroke-opacity="0.9" stroke-miterlimit="2" stroke-width="2" stroke-dasharray="" />
+              </g>
+              <g class="dcg-svg-axis-value"></g>
+              <g class="dcg-svg-axis-value"></g>
+              <g class="dcg-svg-axis-value"></g>
+              <g class="dcg-svg-axis-value"></g>
+              <g class="dcg-svg-axis-value"></g>
+            </g>
+          </g>
+        </g>
+        <g id="expressions-f97eda8416594c72">
+          <g id="sketch-03ef408d20684d2d" data-expression-id="3">
+            <path fill="#000000" stroke="none" paint-order="stroke fill markers" d="" fill-opacity="0.4" />
+            <g>
+              <path fill="none" stroke="#000000" class="dcg-svg-curve" paint-order="fill stroke markers" d=" M 157.0938169952074 -6.5 L 157.0938169952074 -6.5 L 158.64257812499997 3.7361770857906436 L 163.916015625 36.61992352000573 L 169.04296875 66.70173388936786 L 173.876953125 93.35923517452638 L 178.71093749999997 118.36154527659453 L 183.39843749999997 141.02549443855077 L 187.939453125 161.49699483080514 L 192.333984375 179.9173988684423 L 196.58203124999997 196.42349921122178 L 200.68359375 211.1475287635781 L 204.638671875 224.2171606746198 L 208.44726562499997 235.75550833813054 L 212.109375 245.88112539256875 L 215.62499999999997 254.70800572106708 L 218.994140625 262.3455834514334 L 222.21679687499997 268.89873295614984 L 225.29296875 274.4677688523735 L 228.22265624999997 279.14844600193595 L 231.15234375 283.2211557747895 L 233.93554687499997 286.5271002763236 L 236.71874999999997 289.28435422037785 L 239.35546875 291.39035669468745 L 241.845703125 292.9271832951081 L 244.04296875 293.91842634004206 L 246.09374999999997 294.535043071634 L 248.14453125 294.8537557886385 L 250.634765625 294.84026557845124 L 252.5390625 294.5335654392212 L 254.58984375 293.91600839609396 L 256.640625 293.0005473383792 L 258.837890625 291.6891139440279 L 261.181640625 289.9133118831603 L 263.818359375 287.4504395215019 L 266.6015625 284.3164895852461 L 269.384765625 280.63384909151046 L 272.314453125 276.16461722160267 L 275.244140625 271.08741797498595 L 278.3203125 265.10203387685533 L 281.54296875 258.1127100653792 L 284.912109375 250.01913192340052 L 288.28125 241.12151692572417 L 291.796875 230.97981510090224 L 295.458984375 219.4845923211271 L 299.267578125 206.5218547032658 L 303.22265625 191.97304860886024 L 307.32421875 175.7150606441266 L 311.572265625 157.62021765995604 L 315.966796875 137.55628675191446 L 320.5078125 115.3864752602424 L 325.1953125 90.96943076985484 L 330.029296875 64.1592411103417 L 335.009765625 34.805434355967634 L 340.13671875 2.75297882567142 L 341.534428090592 -6.5" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="3.5" stroke-dasharray="" />
+            </g>
+          </g>
+        </g>
+        <g id="labels-e423cab340824307" />
+        <g id="labels-5aca1c18552e4163" />
+      </g>
+    </g>
+  </g>
+</svg>
