@@ -2599,6 +2599,180 @@ body[data-slug="index"] .right.sidebar .toc {
   border-top: 1px solid color-mix(in srgb, var(--secondary) 24%, var(--lightgray));
 }
 
+body:is([data-slug="физика/index"], [data-slug="математика/index"], [data-slug="информатика/index"]) .page-listing {
+  display: none;
+}
+
+.home-module-table {
+  padding: 0.7rem 0.9rem;
+  border: 1px solid color-mix(in srgb, var(--secondary) 26%, var(--lightgray));
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--site-panel) 94%, var(--light));
+}
+
+.home-module-row {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 0.22fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  padding: 0.55rem 0;
+}
+
+.home-module-row + .home-module-row {
+  border-top: 1px solid color-mix(in srgb, var(--secondary) 18%, var(--lightgray));
+}
+
+.home-module-header {
+  padding: 0.15rem 0 0.45rem;
+  color: var(--darkgray);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.home-module-subject {
+  color: var(--dark);
+  font-weight: 700;
+}
+
+.home-module-link {
+  display: grid;
+  grid-template-columns: 4.2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  min-height: 6.2rem;
+  padding: 0.7rem 1.15rem 0.7rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--secondary) 28%, var(--lightgray));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--site-panel) 80%, var(--light));
+  color: var(--dark);
+  text-decoration: none;
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+}
+
+.home-module-link:is(:hover, :focus-visible) {
+  border-color: var(--secondary);
+  background: color-mix(in srgb, var(--site-panel) 70%, var(--secondary));
+  transform: translateY(-2px);
+}
+
+.home-module-link:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 2px;
+}
+
+.home-module-link small,
+.home-module-link strong {
+  display: block;
+}
+
+.home-module-link small {
+  margin-bottom: 0.35rem;
+  color: var(--secondary);
+  font: 700 0.7rem/1.2 var(--codeFont);
+  letter-spacing: 0.08em;
+}
+
+.home-module-link strong {
+  font-size: clamp(1rem, 1.7vw, 1.32rem);
+  line-height: 1.25;
+}
+
+.home-module-arrow {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.home-module-mark {
+  position: relative;
+  display: block;
+  width: 4.2rem;
+  height: 4.2rem;
+  border: 1px solid color-mix(in srgb, var(--secondary) 32%, var(--lightgray));
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--secondary) 12%, var(--site-panel));
+}
+
+.home-module-mark::before,
+.home-module-mark::after {
+  position: absolute;
+  display: block;
+  content: "";
+}
+
+.home-module-physics .home-module-mark::before {
+  inset: 0.85rem;
+  border: 2px solid var(--secondary);
+  border-radius: 50%;
+}
+
+.home-module-physics .home-module-mark::after {
+  top: 0.65rem;
+  right: 0.9rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--tertiary);
+}
+
+.home-module-math .home-module-mark::before {
+  inset: 0.7rem 0.9rem;
+  border-left: 2px solid var(--secondary);
+  border-bottom: 2px solid var(--secondary);
+}
+
+.home-module-math .home-module-mark::after {
+  bottom: 1.15rem;
+  left: 1.05rem;
+  width: 2.15rem;
+  height: 1.35rem;
+  border: 2px solid var(--tertiary);
+  border-top: 0;
+  border-right: 0;
+  border-radius: 0 0 0 100%;
+  transform: rotate(-25deg);
+}
+
+.home-module-cs .home-module-mark::before {
+  top: 1.05rem;
+  left: 0.8rem;
+  width: 0.7rem;
+  height: 2rem;
+  border: 2px solid var(--secondary);
+  border-right: 0;
+}
+
+.home-module-cs .home-module-mark::after {
+  top: 1.05rem;
+  right: 0.8rem;
+  width: 0.7rem;
+  height: 2rem;
+  border: 2px solid var(--tertiary);
+  border-left: 0;
+}
+
+@media all and (max-width: 700px) {
+  .home-module-header {
+    display: none;
+  }
+
+  .home-module-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.4rem;
+  }
+
+  .home-module-link {
+    grid-template-columns: 3.5rem minmax(0, 1fr) auto;
+    gap: 0.7rem;
+  }
+
+  .home-module-mark {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+}
+
 .home-contact {
   display: grid;
   grid-template-columns: repeat(3, 10.4rem);

@@ -36,10 +36,25 @@ title: Hopes and Dreams
 
 <section class="home-resources" aria-labelledby="home-resources-title">
   <div class="home-section-head">
-    <h2 id="home-resources-title">Материалы демоверсии</h2>
+    <h2 id="home-resources-title">Демонстрационные модули</h2>
   </div>
-  <p><a href="./физика/">Полный модуль физики</a> · <a href="./математика/">Полный модуль математики</a> · <a href="./информатика/">Полный модуль информатики</a></p>
-
+  <div class="home-module-table" role="table" aria-label="Демонстрационные модули">
+    <div class="home-module-row home-module-header" role="row">
+      <span role="columnheader">Предмет</span><span role="columnheader">Материалы демоверсии</span>
+    </div>
+    <div class="home-module-row" role="row">
+      <span class="home-module-subject" role="rowheader">Физика</span>
+      <span role="cell"><a class="home-module-link home-module-physics" href="./физика/"><span class="home-module-mark" aria-hidden="true"></span><span><small>PHY / DEMO</small><strong>Демонстрационный модуль Физики</strong></span><span class="home-module-arrow" aria-hidden="true">↗</span></a></span>
+    </div>
+    <div class="home-module-row" role="row">
+      <span class="home-module-subject" role="rowheader">Математика</span>
+      <span role="cell"><a class="home-module-link home-module-math" href="./математика/"><span class="home-module-mark" aria-hidden="true"></span><span><small>MATH / DEMO</small><strong>Демонстрационный модуль Математики</strong></span><span class="home-module-arrow" aria-hidden="true">↗</span></a></span>
+    </div>
+    <div class="home-module-row" role="row">
+      <span class="home-module-subject" role="rowheader">Информатика</span>
+      <span role="cell"><a class="home-module-link home-module-cs" href="./информатика/"><span class="home-module-mark" aria-hidden="true"></span><span><small>CS / DEMO</small><strong>Демонстрационный модуль Информатики</strong></span><span class="home-module-arrow" aria-hidden="true">↗</span></a></span>
+    </div>
+  </div>
 </section>
 
 <section class="home-knowledge-graph" aria-labelledby="home-knowledge-graph-title">
@@ -71,8 +86,7 @@ title: Hopes and Dreams
 
 ## graph-links
 [[Физика/_Теория/МКТ/Пары]]
-[[Физика/_Разборы задач/11 класс ЕГЭ/№21 Качественная задача]]
 [[Физика/_Теория/Механика/Движение по окружности]]
 [[Математика/_Разборы задач/11 класс ЕГЭ/№ 19 Параметр/Теория по параметру]]
-[[Информатика/Истинный фундамент/Звезды/A Автоматизм/Звезда 019. Палиндром]]
+[[Информатика/_Разборы задач/№16 Простая рекурсия]]
 [[statistics|Статистика]]

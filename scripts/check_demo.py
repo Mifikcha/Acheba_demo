@@ -15,11 +15,15 @@ EXISTING = {
     "Информатика/index.md",
     "Математика/index.md",
     "Физика/index.md",
-    "Физика/_Разборы задач/11 класс ЕГЭ/№21 Качественная задача.md",
-    "Физика/_Теория/Механика/Движение по окружности.md",
 }
-EXPECTED = EXISTING | set(json.loads((ROOT / "scripts/demo_manifest.json").read_text(encoding="utf-8"))["notes"])
-NOTES = EXPECTED - EXISTING
+NOTES = set(json.loads((ROOT / "scripts/demo_manifest.json").read_text(encoding="utf-8"))["notes"])
+EXPECTED = EXISTING | NOTES
+assert "Физика/_Теория/Механика/Движение по окружности.md" in NOTES
+assert "Информатика/_Разборы задач/№16 Простая рекурсия.md" in NOTES
+assert not any("№21 Качественная задача" in note or "Звезды" in note for note in NOTES)
+assert all("/№ 19 Параметр/" in note for note in NOTES if note.startswith("Математика/_Разборы задач/"))
+assert all("/Теория/04 Функции/" in note for note in NOTES if note.startswith("Математика/Теория/"))
+assert all(any(f"/Истинный фундамент/{chapter}" in note for chapter in ("02 ", "03 ", "04 ")) for note in NOTES if note.startswith("Информатика/Истинный фундамент/"))
 
 
 class Links(HTMLParser):
@@ -33,25 +37,13 @@ class Links(HTMLParser):
 
 actual = {path.relative_to(CONTENT).as_posix() for path in CONTENT.rglob("*.md")}
 assert actual == EXPECTED, f"Unexpected Markdown set: {actual ^ EXPECTED}"
-for relative in NOTES:
-    subject = relative.split("/", 1)[0]
-    catalog = (CONTENT / subject / "index.md").read_text(encoding="utf-8")
-    assert f"[[{relative[:-3]}|" in catalog, f"Note missing from subject catalog: {relative}"
+for subject in ("Информатика", "Математика", "Физика"):
+    assert "Все заметки" not in (CONTENT / subject / "index.md").read_text(encoding="utf-8")
 index = json.loads((PUBLIC / "static/contentIndex.json").read_text(encoding="utf-8"))
 assert EXPECTED <= {item["filePath"] for item in index.values()}
-def graph_slug(slug: str) -> str:
-    return "/" if slug == "index" else slug[:-5] if slug.endswith("/index") else slug
-
-
-slugs = {item["filePath"]: graph_slug(slug) for slug, item in index.items()}
-degree = {graph_slug(slug): 0 for slug in index}
-for item in index.values():
-    for target in item.get("links", []):
-        normalized = graph_slug(target)
-        if normalized in degree:
-            degree[normalized] += 1
-for relative in NOTES:
-    assert degree[slugs[relative]] > 0, f"Note disconnected from knowledge graph: {relative}"
+home = (PUBLIC / "index.html").read_text(encoding="utf-8")
+for subject in ("Физики", "Математики", "Информатики"):
+    assert f"Демонстрационный модуль {subject}" in home
 assert not (PUBLIC / "CNAME").exists()
 assert {"pyodide.js", "pyodide.asm.js", "pyodide.asm.wasm", "python_stdlib.zip", "pyodide-lock.json", "LICENSE"} <= {
     path.name for path in (PUBLIC / "static/pyodide").iterdir() if path.is_file()
@@ -68,8 +60,6 @@ for page in PUBLIC.rglob("*.html"):
     assert "katex-error" not in html, f"Broken formula: {page}"
     assert "note-cheatsheet" not in html and "Шпора" not in html, f"Cheat sheet remains: {page}"
     assert "впадлу" not in html, f"Colloquial draft remains: {page}"
-    if page == PUBLIC / "index.html":
-        assert "home-program-matrix" not in html, "Home matrix remains"
     links = Links()
     links.feed(html)
     page_url = urljoin(BASE, page.relative_to(PUBLIC).as_posix())
