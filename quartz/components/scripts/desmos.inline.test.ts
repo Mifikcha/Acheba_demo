@@ -54,6 +54,10 @@ function harness() {
   }
 
   const scripts: Element[] = []
+  const styles = [new Element(), new Element(), new Element()]
+  styles[0].textContent = '@charset "UTF-8";.dcg-calculator-api-container-v1_12 img{height:auto}'
+  styles[1].textContent = '.dcg-api-trial-notice-container{position:absolute}'
+  styles[2].textContent = '.site-theme{color:purple}'
   const calculators: { expressions: string[]; destroyed: boolean }[] = []
   const cleanups = new Set<() => void>()
   const listeners: Record<string, () => void> = {}
@@ -61,7 +65,10 @@ function harness() {
   root.dataset.expressions = "a=1; y=ax"
   const document = {
     createElement: () => new Element(),
-    head: { append: (script: Element) => scripts.push(script) },
+    head: {
+      append: (script: Element) => scripts.push(script),
+      querySelectorAll: () => styles,
+    },
     addEventListener: (name: string, callback: () => void) => (listeners[name] = callback),
     querySelectorAll: (selector: string) =>
       selector === ".desmos-embed" ? [root] : [root.querySelector(".desmos-stage")].filter(Boolean),
@@ -84,6 +91,7 @@ function harness() {
 
   return {
     scripts,
+    styles,
     calculators,
     cleanups,
     nav: listeners.nav,
@@ -150,6 +158,29 @@ test("failed first load can retry, and each navigation registers cleanup", async
   await settle()
   assert.equal(app.cleanups.size, 1)
   assert.equal(app.root.dataset.desmosReady, "true")
+})
+
+test("Desmos styles survive Quartz SPA head replacement", async () => {
+  const app = harness()
+  app.nav()
+  app.finishLoad()
+  await settle()
+  assert.equal(app.styles[0].dataset.persist, "")
+  assert.equal(app.styles[1].dataset.persist, "")
+  assert.equal(app.styles[2].dataset.persist, undefined)
+})
+
+test("Desmos styles persist when loading finishes during navigation", async () => {
+  const app = harness()
+  app.nav()
+  const oldRoot = app.root
+  app.cleanup()
+  oldRoot.isConnected = false
+  app.finishLoad()
+  await settle()
+  assert.equal(app.calculators.length, 0)
+  assert.equal(app.styles[0].dataset.persist, "")
+  assert.equal(app.styles[1].dataset.persist, "")
 })
 
 test("a script resolving after SPA cleanup mounts only the new page", async () => {

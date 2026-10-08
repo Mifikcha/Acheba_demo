@@ -24,7 +24,10 @@ let desmosObserver: IntersectionObserver | undefined
 let navigationGeneration = 0
 
 const loadDesmos = () => {
-  if (window.Desmos) return Promise.resolve()
+  if (window.Desmos) {
+    persistDesmosStyles()
+    return Promise.resolve()
+  }
   if (desmosScriptPromise) return desmosScriptPromise
 
   desmosScriptPromise = new Promise((resolve, reject) => {
@@ -44,6 +47,7 @@ const loadDesmos = () => {
     script.onload = () => {
       if (settled) return
       if (window.Desmos) {
+        persistDesmosStyles()
         settled = true
         window.clearTimeout(timeout)
         resolve()
@@ -65,6 +69,18 @@ const parseExpressions = (value: string | undefined) =>
 const keepWheelForPageScroll = (event: WheelEvent) => {
   if (event.shiftKey) return
   event.stopImmediatePropagation()
+}
+
+const persistDesmosStyles = () => {
+  document.head.querySelectorAll<HTMLStyleElement>("style:not([data-persist])").forEach((style) => {
+    const css = style.textContent ?? ""
+    if (
+      css.includes(".dcg-calculator-api-container-") ||
+      css.includes(".dcg-api-trial-notice-container")
+    ) {
+      style.dataset.persist = ""
+    }
+  })
 }
 
 const prepareDesmosEmbed = (root: HTMLElement) => {
@@ -145,6 +161,7 @@ const initDesmosEmbed = async (root: HTMLElement) => {
       invertedColorsControl: false,
       language: "ru",
     })
+    persistDesmosStyles()
     expressions.forEach((latex, index) => {
       calculator!.setExpression({ id: `expr-${index}`, latex })
     })
