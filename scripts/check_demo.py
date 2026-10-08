@@ -39,6 +39,9 @@ actual = {path.relative_to(CONTENT).as_posix() for path in CONTENT.rglob("*.md")
 assert actual == EXPECTED, f"Unexpected Markdown set: {actual ^ EXPECTED}"
 for subject in ("Информатика", "Математика", "Физика"):
     assert "Все заметки" not in (CONTENT / subject / "index.md").read_text(encoding="utf-8")
+circle = (CONTENT / "Физика/_Теория/Механика/Движение по окружности.md").read_text(encoding="utf-8")
+assert circle.index("### Скорость и ускорения при движении по окружности") < circle.index('class="circle-animation"')
+assert "В демо недоступно" in circle
 index = json.loads((PUBLIC / "static/contentIndex.json").read_text(encoding="utf-8"))
 assert EXPECTED <= {item["filePath"] for item in index.values()}
 home = (PUBLIC / "index.html").read_text(encoding="utf-8")
@@ -60,6 +63,7 @@ for page in PUBLIC.rglob("*.html"):
     assert "katex-error" not in html, f"Broken formula: {page}"
     assert "note-cheatsheet" not in html and "Шпора" not in html, f"Cheat sheet remains: {page}"
     assert "впадлу" not in html, f"Colloquial draft remains: {page}"
+    assert "hopes-and-dreams.fifikcha.workers.dev" not in html, f"Original HnD link remains: {page}"
     links = Links()
     links.feed(html)
     page_url = urljoin(BASE, page.relative_to(PUBLIC).as_posix())
