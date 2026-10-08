@@ -32,7 +32,8 @@ type WorkerReply =
   | { id: number; ok: true; result: PythonRunResult }
   | { id: number; ok: false; error: string }
 
-const pyodideUrl = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js"
+const pyodideBaseUrl = `${window.location.origin}/Acheba_demo/static/pyodide/`
+const pyodideUrl = `${pyodideBaseUrl}pyodide.js`
 const defaultCode = `def solve(x):
     return x * x
 
@@ -163,7 +164,7 @@ function loadRuntime() {
   if (!runtimePromise) {
     runtimePromise = (async () => {
       importScripts(${JSON.stringify(pyodideUrl)});
-      return await loadPyodide();
+      return await loadPyodide({ indexURL: ${JSON.stringify(pyodideBaseUrl)} });
     })();
   }
   return runtimePromise;

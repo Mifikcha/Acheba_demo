@@ -25,6 +25,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx quartz build -d 'Публичный сайт' -o public --concurrency=4
+      - run: python3 scripts/fix_demo_links.py
       - run: python3 scripts/check_demo.py
       - run: touch public/.nojekyll
       - uses: actions/configure-pages@v5

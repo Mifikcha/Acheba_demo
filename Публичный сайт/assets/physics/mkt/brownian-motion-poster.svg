@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-labelledby="title desc">
+  <title id="title">Броуновское движение</title>
+  <desc id="desc">Крупная золотая частица движется по ломаной траектории среди хаотически движущихся молекул.</desc>
+  <rect width="720" height="480" fill="#1a1b26"/>
+  <rect x="52" y="62" width="616" height="354" rx="10" fill="none" stroke="#565f89" stroke-width="3"/>
+  <path d="M344 278 C315 252 380 225 338 196 C303 172 370 146 392 190 C414 233 352 231 377 278 C392 307 352 328 330 299" fill="none" stroke="#e0af68" stroke-width="5" stroke-linecap="round" opacity=".75"/>
+  <g fill="#7dcfff">
+    <circle cx="98" cy="112" r="8"/><circle cx="163" cy="190" r="7"/><circle cx="231" cy="104" r="8"/><circle cx="276" cy="347" r="7"/><circle cx="119" cy="329" r="8"/><circle cx="538" cy="117" r="7"/><circle cx="608" cy="226" r="8"/><circle cx="521" cy="350" r="7"/><circle cx="446" cy="96" r="8"/>
+  </g>
+  <g fill="#bb9af7">
+    <circle cx="129" cy="246" r="7"/><circle cx="206" cy="302" r="8"/><circle cx="262" cy="207" r="7"/><circle cx="302" cy="121" r="8"/><circle cx="473" cy="177" r="7"/><circle cx="582" cy="323" r="8"/><circle cx="464" cy="381" r="7"/><circle cx="634" cy="139" r="8"/><circle cx="419" cy="311" r="7"/>
+  </g>
+  <circle cx="330" cy="299" r="19" fill="#e0af68" stroke="#f6d59b" stroke-width="5"/>
+  <text x="52" y="42" fill="#c0caf5" font-family="system-ui, sans-serif" font-size="24">T — температура</text>
+</svg>

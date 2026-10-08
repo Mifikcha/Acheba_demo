@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-labelledby="title desc">
+  <title id="title">Диффузия</title>
+  <desc id="desc">Сначала частицы двух веществ разделены, затем частицы обоих цветов равномерно перемешиваются.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#c0caf5"/></marker>
+  </defs>
+  <rect width="720" height="480" fill="#1a1b26"/>
+  <g fill="none" stroke="#565f89" stroke-width="3">
+    <rect x="38" y="95" width="270" height="300" rx="10"/>
+    <rect x="412" y="95" width="270" height="300" rx="10"/>
+    <path d="M173 95V395" stroke-dasharray="8 8"/>
+  </g>
+  <path d="M328 245H390" stroke="#c0caf5" stroke-width="5" marker-end="url(#arrow)"/>
+  <g fill="#7dcfff">
+    <circle cx="76" cy="137" r="9"/><circle cx="123" cy="174" r="9"/><circle cx="82" cy="225" r="9"/><circle cx="136" cy="270" r="9"/><circle cx="91" cy="327" r="9"/><circle cx="138" cy="360" r="9"/>
+    <circle cx="451" cy="137" r="9"/><circle cx="536" cy="174" r="9"/><circle cx="638" cy="220" r="9"/><circle cx="481" cy="282" r="9"/><circle cx="587" cy="329" r="9"/><circle cx="649" cy="364" r="9"/>
+  </g>
+  <g fill="#e0af68">
+    <circle cx="218" cy="140" r="9"/><circle cx="265" cy="181" r="9"/><circle cx="214" cy="232" r="9"/><circle cx="269" cy="276" r="9"/><circle cx="224" cy="327" r="9"/><circle cx="272" cy="364" r="9"/>
+    <circle cx="642" cy="137" r="9"/><circle cx="449" cy="198" r="9"/><circle cx="559" cy="238" r="9"/><circle cx="656" cy="291" r="9"/><circle cx="492" cy="348" r="9"/><circle cx="569" cy="378" r="9"/>
+  </g>
+  <g fill="#c0caf5" font-family="system-ui, sans-serif" font-size="22" text-anchor="middle">
+    <text x="173" y="65">сначала</text>
+    <text x="547" y="65">после перемешивания</text>
+  </g>
+</svg>

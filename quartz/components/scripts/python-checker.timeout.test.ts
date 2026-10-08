@@ -50,8 +50,9 @@ function harness(bootDelay: number, runDelay: number | null, bootDeadline = 6000
       runInNewContext(workerSource, {
         self,
         importScripts: () => undefined,
-        loadPyodide: () =>
-          new Promise((resolve) =>
+        loadPyodide: (options: { indexURL: string }) => {
+          assert.equal(options.indexURL, "https://demo.test/Acheba_demo/static/pyodide/")
+          return new Promise((resolve) =>
             setTimeout(
               () =>
                 resolve({
@@ -77,7 +78,8 @@ function harness(bootDelay: number, runDelay: number | null, bootDeadline = 6000
                 }),
               bootDelay,
             ),
-          ),
+          )
+        },
       })
       self.onmessage?.({ data })
     }
@@ -93,6 +95,7 @@ function harness(bootDelay: number, runDelay: number | null, bootDeadline = 6000
     URL: { createObjectURL: () => "worker", revokeObjectURL: () => undefined },
     document: { addEventListener: () => undefined },
     window: {
+      location: { origin: "https://demo.test" },
       setTimeout: (callback: () => void, ms: number) =>
         setTimeout(callback, ms === 60000 ? bootDeadline : ms),
       clearTimeout,

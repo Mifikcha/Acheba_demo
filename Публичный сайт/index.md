@@ -38,6 +38,7 @@ title: Hopes and Dreams
   <div class="home-section-head">
     <h2 id="home-resources-title">Материалы демоверсии</h2>
   </div>
+  <p><a href="./физика/">Полный модуль физики</a> · <a href="./математика/">Полный модуль математики</a> · <a href="./информатика/">Полный модуль информатики</a></p>
   <div class="home-program-card">
     <div class="home-program-matrix" aria-label="Матрица материалов демоверсии">
       <div class="home-program-axis" aria-hidden="true"></div>

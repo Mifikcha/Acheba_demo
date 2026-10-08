@@ -9,15 +9,16 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTENT = ROOT / "Публичный сайт"
 PUBLIC = ROOT / "public"
 BASE = "https://mifikcha.github.io/Acheba_demo/"
-EXPECTED = {
+EXISTING = {
     "index.md",
     "statistics.md",
-    "Информатика/Истинный фундамент/Звезды/A Автоматизм/Звезда 019. Палиндром.md",
-    "Математика/_Разборы задач/11 класс ЕГЭ/№ 19 Параметр/Теория по параметру.md",
+    "Информатика/index.md",
+    "Математика/index.md",
+    "Физика/index.md",
     "Физика/_Разборы задач/11 класс ЕГЭ/№21 Качественная задача.md",
-    "Физика/_Теория/МКТ/Пары.md",
     "Физика/_Теория/Механика/Движение по окружности.md",
 }
+EXPECTED = EXISTING | set(json.loads((ROOT / "scripts/demo_manifest.json").read_text(encoding="utf-8"))["notes"])
 
 
 class Links(HTMLParser):
@@ -34,11 +35,21 @@ assert actual == EXPECTED, f"Unexpected Markdown set: {actual ^ EXPECTED}"
 index = json.loads((PUBLIC / "static/contentIndex.json").read_text(encoding="utf-8"))
 assert EXPECTED <= {item["filePath"] for item in index.values()}
 assert not (PUBLIC / "CNAME").exists()
+assert {"pyodide.js", "pyodide.asm.js", "pyodide.asm.wasm", "python_stdlib.zip", "pyodide-lock.json", "LICENSE"} <= {
+    path.name for path in (PUBLIC / "static/pyodide").iterdir() if path.is_file()
+}
+for item in index.values():
+    for slug in item.get("links", []):
+        relative = slug.strip("/")
+        assert any(path.is_file() for path in (PUBLIC / f"{relative}.html", PUBLIC / relative / "index.html")), f"Broken graph link: {slug}"
 
 checked = 0
+broken = []
 for page in PUBLIC.rglob("*.html"):
+    html = page.read_text(encoding="utf-8")
+    assert "katex-error" not in html, f"Broken formula: {page}"
     links = Links()
-    links.feed(page.read_text(encoding="utf-8"))
+    links.feed(html)
     page_url = urljoin(BASE, page.relative_to(PUBLIC).as_posix())
     for value in links.values:
         target = urlparse(urljoin(page_url, value))
@@ -47,7 +58,9 @@ for page in PUBLIC.rglob("*.html"):
         assert target.path == "/Acheba_demo" or target.path.startswith("/Acheba_demo/"), f"Escaped base path: {page}: {value}"
         relative = unquote(target.path.removeprefix("/Acheba_demo/") if target.path != "/Acheba_demo" else "")
         candidates = [PUBLIC / relative, PUBLIC / f"{relative}.html", PUBLIC / relative / "index.html"]
-        assert any(candidate.is_file() for candidate in candidates), f"Broken local link: {page}: {value}"
+        if not any(candidate.is_file() for candidate in candidates):
+            broken.append((page.relative_to(PUBLIC).as_posix(), value))
         checked += 1
 
+assert not broken, f"{len(broken)} broken local links:\n" + "\n".join(f"{page}: {value}" for page, value in broken[:80])
 print(f"Demo check passed: {len(EXPECTED)} Markdown files, {len(index)} indexed pages, {checked} local links")

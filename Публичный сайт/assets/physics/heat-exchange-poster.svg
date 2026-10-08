@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 440" role="img" aria-label="Тепло переходит от тел 80 и 60 градусов к более холодным; со временем все три тела достигают 65 градусов">
+  <rect width="800" height="440" fill="#1a1b26"/>
+  <defs><marker id="tip" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 8 4 0 8" fill="#e0af68"/></marker></defs>
+  <g fill="none" stroke="#e0af68" stroke-width="3" marker-end="url(#tip)"><path d="M354 88h92"/><path d="M348 295Q270 225 190 150"/><path d="M452 295Q530 225 610 150"/></g>
+  <g stroke="#b8c1de" stroke-width="2"><rect x="32" y="35" width="305" height="115" rx="12" fill="#765122"/><rect x="463" y="35" width="305" height="115" rx="12" fill="#274b6f"/><rect x="248" y="295" width="305" height="110" rx="12" fill="#8b4025"/></g>
+  <g font-family="sans-serif" fill="#fff" text-anchor="middle"><g font-size="18"><text x="184" y="76">Тело А</text><text x="615" y="76">Тело Б</text><text x="400" y="334">Тело В</text></g><g font-size="38" font-weight="700"><text x="184" y="119">60 °C</text><text x="615" y="119">20 °C</text><text x="400" y="378">80 °C</text></g></g>
+</svg>
