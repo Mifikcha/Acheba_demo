@@ -10,60 +10,6 @@ article img[src*="pasted-image"] {
   mix-blend-mode: multiply;
 }
 
-.callout[data-callout] {
-  --color: var(--secondary);
-  --border: color-mix(in srgb, var(--color) 58%, transparent);
-  --bg: color-mix(in srgb, var(--color) 17%, var(--light));
-  background-color: var(--bg);
-  border-color: var(--border);
-}
-
-.callout[data-callout="info"],
-.callout[data-callout="todo"] {
-  --color: var(--tn-cyan);
-}
-.callout[data-callout="tip"],
-.callout[data-callout="success"] {
-  --color: var(--tn-green);
-}
-.callout[data-callout="warning"],
-.callout[data-callout="question"] {
-  --color: var(--tn-orange);
-}
-.callout[data-callout="failure"],
-.callout[data-callout="danger"],
-.callout[data-callout="bug"] {
-  --color: var(--tn-red);
-}
-.callout[data-callout="example"] {
-  --color: var(--tn-magenta);
-}
-
-:root[saved-theme="light"] .callout[data-callout="info"],
-:root[saved-theme="light"] .callout[data-callout="todo"] {
-  --color: #286b76;
-}
-:root[saved-theme="light"] .callout[data-callout="tip"],
-:root[saved-theme="light"] .callout[data-callout="success"] {
-  --color: #286e46;
-}
-:root[saved-theme="light"] .callout[data-callout="warning"],
-:root[saved-theme="light"] .callout[data-callout="question"] {
-  --color: #9a531d;
-}
-:root[saved-theme="light"] .callout[data-callout="failure"],
-:root[saved-theme="light"] .callout[data-callout="danger"],
-:root[saved-theme="light"] .callout[data-callout="bug"] {
-  --color: #a04148;
-}
-:root[saved-theme="light"] .callout[data-callout="example"] {
-  --color: #744c99;
-}
-
-body[data-slug*="физика/_разборы-задач"] .callout-title-inner {
-  font-weight: 700;
-}
-
 .coding-workbench .python-checker-task {
   border-bottom-color: var(--secondary);
   background: color-mix(in srgb, var(--secondary) 15%, var(--python-editor-bg));
