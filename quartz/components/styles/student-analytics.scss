@@ -1,6 +1,6 @@
 body[data-slug="statistics"] {
   --analytics-line: color-mix(in srgb, var(--tn-comment) 38%, transparent);
-  --analytics-surface: color-mix(in srgb, var(--tn-bg-dark) 74%, var(--tn-bg));
+  --analytics-surface: color-mix(in srgb, var(--site-panel) 55%, var(--light));
 }
 
 body[data-slug="statistics"] .center > .page-header {
@@ -38,6 +38,31 @@ body[data-slug="statistics"] .center > .page-header {
   border-bottom: 1px solid var(--analytics-line);
 }
 
+.analytics-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.analytics-home {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.75rem;
+  color: var(--secondary);
+  font-weight: 700;
+}
+
+.analytics-home svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+.analytics-home:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 3px;
+}
+
 .analytics-header h1 {
   margin: 0;
   font-size: clamp(2.2rem, 6vw, 4.8rem);
@@ -62,8 +87,8 @@ body[data-slug="statistics"] .center > .page-header {
 .demo-badge {
   flex: 0 0 auto;
   padding: 0.35rem 0.55rem;
-  border: 1px solid color-mix(in srgb, var(--tn-orange) 62%, transparent);
-  color: var(--tn-orange);
+  border: 1px solid color-mix(in srgb, var(--secondary) 70%, transparent);
+  color: var(--secondary);
   font: 600 0.68rem/1 var(--codeFont);
   letter-spacing: 0.1em;
 }
@@ -269,19 +294,19 @@ body[data-slug="statistics"] .center > .page-header {
 }
 .chart-line {
   fill: none;
-  stroke: var(--tn-magenta);
+  stroke: var(--secondary);
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
   animation: analytics-line-draw 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .chart-point {
-  fill: var(--tn-bg);
-  stroke: var(--tn-cyan);
+  fill: var(--analytics-surface);
+  stroke: var(--tertiary);
   stroke-width: 3;
 }
 .chart-label {
-  fill: var(--tn-comment);
+  fill: var(--darkgray);
   font: 14px var(--codeFont);
 }
 .analytics-chart figcaption {
@@ -346,7 +371,7 @@ body[data-slug="statistics"] .center > .page-header {
   padding: 0;
   border: 0;
   border-radius: 0;
-  background: var(--tn-bg-highlight);
+  background: var(--lightgray);
   color: var(--dark);
   font: inherit;
 }
@@ -354,13 +379,13 @@ body[data-slug="statistics"] .center > .page-header {
   cursor: help;
 }
 .activity-day[data-level="1"] {
-  background: color-mix(in srgb, var(--tn-blue) 35%, var(--tn-bg-highlight));
+  background: color-mix(in srgb, var(--tertiary) 35%, var(--lightgray));
 }
 .activity-day[data-level="2"] {
-  background: color-mix(in srgb, var(--tn-blue) 66%, var(--tn-bg-highlight));
+  background: color-mix(in srgb, var(--tertiary) 66%, var(--lightgray));
 }
 .activity-day[data-level="3"] {
-  background: var(--tn-cyan);
+  background: var(--tertiary);
 }
 .activity-day:is(button):focus-visible {
   z-index: 2;
@@ -381,7 +406,7 @@ body[data-slug="statistics"] .center > .page-header {
   overflow: auto;
   border: 1px solid var(--analytics-line);
   border-radius: 0.75rem;
-  background: var(--tn-bg-dark);
+  background: var(--analytics-surface);
   box-shadow: 0 0.65rem 1.6rem color-mix(in srgb, var(--tn-bg) 65%, transparent);
   color: var(--dark);
   line-height: 1.45;
@@ -545,6 +570,23 @@ body[data-slug="statistics"] .center > .page-header {
 }
 
 @media (max-width: 760px) {
+  .analytics-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .analytics-home span {
+    display: none;
+  }
+  .activity-calendar {
+    gap: 0.4rem 0.25rem;
+    grid-template-rows: repeat(7, 1rem);
+  }
+  .analytics-chart {
+    overflow-x: auto;
+  }
+  .analytics-chart svg {
+    min-width: 30rem;
+  }
   .analytics-header,
   .analytics-overview,
   .section-heading {

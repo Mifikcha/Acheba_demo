@@ -413,14 +413,17 @@ export function filterSnapshot(
       .filter((topic) => subject === "all" || topic.subject === subject)
       .map((topic) => topic.id),
   )
+  const topics = snapshot.topics.filter((topic) => topicIds.has(topic.id))
+  const tasks = snapshot.tasks.filter((task) => topicIds.has(task.topicId))
+  const attempts = filterByDateRange(
+    snapshot.attempts.filter((attempt) => topicIds.has(attempt.topicId)),
+    range,
+    now,
+  )
   return {
-    topics: snapshot.topics.filter((topic) => topicIds.has(topic.id)),
-    tasks: snapshot.tasks.filter((task) => topicIds.has(task.topicId)),
-    attempts: filterByDateRange(
-      snapshot.attempts.filter((attempt) => topicIds.has(attempt.topicId)),
-      range,
-      now,
-    ),
+    topics,
+    tasks,
+    attempts,
     activity: filterByDateRange(
       snapshot.activity.filter((event) => subject === "all" || event.subject === subject),
       range,
@@ -436,6 +439,6 @@ export function filterSnapshot(
       range,
       now,
     ),
-    topicProgress: snapshot.topicProgress.filter((progress) => topicIds.has(progress.topicId)),
+    topicProgress: topics.map((topic) => progressForTopic(topic, tasks, attempts, now)),
   }
 }

@@ -2,7 +2,6 @@ import {
   SUBJECT_LABELS,
   aggregateAttemptsByWeek,
   calculateAccuracy,
-  calculateCompletion,
   classifyTopic,
   filterSnapshot,
   loadAnalyticsSnapshot,
@@ -35,6 +34,8 @@ const escapeHtml = (value: unknown) =>
     (character) =>
       ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]!,
   )
+const siteHref = (path: string) =>
+  path === "#" ? "#" : `${document.body.dataset.basepath?.replace(/\/$/, "") ?? ""}${path}`
 
 type DashboardState = { subject: SubjectFilter; range: DateRange }
 
@@ -137,12 +138,10 @@ function renderReady(
   const validAttempts = filtered.attempts.filter(
     (attempt) => attempt.completedAt && attempt.maxScore > 0,
   )
-  const completion = calculateCompletion(
-    filtered.topics.map((topic) => topic.id),
-    filtered.topicProgress
-      .filter((progress) => progress.attempts > 0)
-      .map((progress) => progress.topicId),
-  )
+  const completion = filtered.topics.length
+    ? filtered.topicProgress.reduce((sum, progress) => sum + progress.completion, 0) /
+      filtered.topics.length
+    : null
   const studySeconds = filtered.sessions.reduce(
     (sum, session) => sum + (session.activeDurationSeconds ?? 0),
     0,
@@ -153,10 +152,22 @@ function renderReady(
     label: formatDate(exam.date),
     value: exam.finalScore ?? exam.primaryScore ?? exam.rawScore ?? 0,
   }))
-  const weekly = aggregateAttemptsByWeek(filtered.attempts).map((week) => ({
-    label: formatDate(week.weekStart),
-    value: Math.round((week.accuracy ?? 0) * 100),
-  }))
+  const weekly =
+    state.range === "7d"
+      ? [...new Set(validAttempts.map((attempt) => attempt.completedAt!.slice(0, 10)))]
+          .sort()
+          .map((day) => ({
+            label: formatDate(day),
+            value: Math.round(
+              (calculateAccuracy(
+                validAttempts.filter((attempt) => attempt.completedAt!.startsWith(day)),
+              ) ?? 0) * 100,
+            ),
+          }))
+      : aggregateAttemptsByWeek(filtered.attempts).map((week) => ({
+          label: formatDate(week.weekStart),
+          value: Math.round((week.accuracy ?? 0) * 100),
+        }))
   const classified = filtered.topicProgress.map((progress) => ({
     progress,
     kind: classifyTopic(progress),
@@ -194,15 +205,15 @@ function renderReady(
   root.innerHTML = `<div class="analytics-shell">
     <header class="analytics-header">
       <div><h1>Статистика ${escapeHtml(snapshot.profile.displayName)}</h1><p>${escapeHtml(snapshot.profile.targetExam ?? "Персональный учебный маршрут")}</p></div>
-      <span class="demo-badge">ДЕМОНСТРАЦИОННЫЕ ДАННЫЕ</span>
+      <div class="analytics-header-actions"><a class="analytics-home" href="${siteHref("/")}" aria-label="На главную"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8M5 10v11h14V10M9 21v-7h6v7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>На главную</span></a><span class="demo-badge">ДЕМОНСТРАЦИОННЫЕ ДАННЫЕ</span></div>
     </header>
     ${controls(state)}
     ${
       hasData
         ? `<main>
-      <section class="analytics-overview" aria-labelledby="overview-title"><div><h2 id="overview-title">Сейчас</h2><p>Последняя активность — ${formatDate(latest)}. Данные показывают учебный ритм, а не оценивают человека.</p></div><dl class="analytics-readout"><div><dt>Пройдено тем</dt><dd>${formatPercent(completion)}</dd></div><div><dt>Точность</dt><dd>${formatPercent(calculateAccuracy(filtered.attempts))}</dd></div><div><dt>Решено</dt><dd>${validAttempts.length}</dd></div><div><dt>В занятиях</dt><dd>${formatDuration(studySeconds)}</dd></div></dl></section>
+      <section class="analytics-overview" aria-labelledby="overview-title"><div><h2 id="overview-title">Сейчас</h2><p>Последняя активность — ${formatDate(latest)}. Данные показывают учебный ритм, а не оценивают человека.</p></div><dl class="analytics-readout"><div><dt>Пройдено практики</dt><dd>${formatPercent(completion)}</dd></div><div><dt>Точность</dt><dd>${formatPercent(calculateAccuracy(filtered.attempts))}</dd></div><div><dt>Решено</dt><dd>${validAttempts.length}</dd></div><div><dt>В занятиях</dt><dd>${formatDuration(studySeconds)}</dd></div></dl></section>
       <section><div class="section-heading"><h2>Карта программы</h2><p>Оценка освоенности прозрачна: покрытие 35%, недавняя точность 45%, объём практики 20%.</p></div>${subjectProgress}</section>
-      <section><div class="section-heading"><h2>Динамика результата</h2><p>Баллы пробников и недельная точность разделены: у них разные единицы.</p></div><div class="chart-pair">${lineChart(exams, "Результаты пробников", " баллов")}${lineChart(weekly, "Недельная точность", "%")}</div></section>
+      <section><div class="section-heading"><h2>Динамика результата</h2><p>Баллы пробников и точность решений разделены: у них разные единицы.</p></div><div class="chart-pair">${lineChart(exams, "Результаты пробников", " баллов")}${lineChart(weekly, state.range === "7d" ? "Точность по дням" : "Недельная точность", "%")}</div></section>
       <section class="topic-signals"><div><h2>Сильные темы</h2>${strong.length ? `<ul>${strong.map(({ topic, progress }) => `<li><span>${escapeHtml(topic.title)}</span><strong>${formatPercent(progress.mastery)}</strong></li>`).join("")}</ul>` : `<p class="quiet-state">Нужно ещё несколько завершённых попыток.</p>`}</div><div><h2>Требуют внимания</h2>${weak.length ? `<ul>${weak.map(({ topic, progress }) => `<li><span>${escapeHtml(topic.title)}</span><strong>${progress.recentMistakes} ошибок</strong></li>`).join("")}</ul>` : `<p class="quiet-state">Сигналов для классификации пока нет.</p>`}</div></section>
       <section><div class="section-heading"><h2>Ритм занятий</h2><p>Наведите указатель или перейдите с клавиатуры на цветной день, чтобы увидеть темы и время.</p></div>${activityCalendar(snapshot, state, now)}</section>
       <section><div class="section-heading"><h2>Последние ошибки</h2><p>Конкретные места, к которым можно вернуться.</p></div>${
@@ -211,7 +222,7 @@ function renderReady(
               .map((attempt) => {
                 const task = taskById.get(attempt.taskId)
                 const topic = topicById.get(attempt.topicId)
-                return `<a href="${escapeHtml(task?.href ?? "#")}" class="mistake-row"><span><strong>${escapeHtml(task?.title ?? attempt.taskId)}</strong><small>${escapeHtml(topic?.title ?? attempt.topicId)} · попытка ${attempt.attemptNumber}</small></span><span>${attempt.score}/${attempt.maxScore}<small>${formatDate(attempt.completedAt!)}</small></span></a>`
+                return `<a href="${escapeHtml(siteHref(task?.href ?? "#"))}" class="mistake-row"><span><strong>${escapeHtml(task?.title ?? attempt.taskId)}</strong><small>${escapeHtml(topic?.title ?? attempt.topicId)} · попытка ${attempt.attemptNumber}</small></span><span>${attempt.score}/${attempt.maxScore}<small>${formatDate(attempt.completedAt!)}</small></span></a>`
               })
               .join("")}</div>`
           : `<p class="quiet-state">В выбранном диапазоне ошибок нет.</p>`
@@ -220,7 +231,7 @@ function renderReady(
         .slice(0, 4)
         .map(
           (item) =>
-            `<li><a href="${escapeHtml(item.href ?? "#")}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.detail)}</span></a></li>`,
+            `<li><a href="${escapeHtml(siteHref(item.href ?? "#"))}"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.detail)}</span></a></li>`,
         )
         .join("")}</ol></section>
     </main>`

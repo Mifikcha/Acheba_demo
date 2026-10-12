@@ -80,6 +80,9 @@ export const CodingLessonFrame: PageFrame = {
           </a>
           <strong>{title}</strong>
           <div class="coding-lesson-meta">
+            <a class="coding-task-jump" href="#coding-workbench">
+              К заданию ↓
+            </a>
             <span class="coding-lesson-progress">
               {lessonIndex + 1} / {lessons.length}
             </span>
@@ -139,6 +142,7 @@ export const CodingLessonFrame: PageFrame = {
           </div>
 
           <aside
+            id="coding-workbench"
             class="python-checker coding-workbench"
             data-layout="lesson"
             data-title={lessonCode}

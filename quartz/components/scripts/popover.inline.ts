@@ -35,7 +35,7 @@ async function mouseEnterHandler(
     popoverElement.classList.add("active-popover")
     setPosition(popoverElement as HTMLElement)
 
-    if (hash !== "") {
+    if (hash !== "" && !dimensionPopover) {
       const inner = popoverElement.querySelector(".popover-inner") as HTMLElement | null
       if (inner) {
         const targetAnchor = `#popover-internal-${hash.slice(1)}`
@@ -50,9 +50,14 @@ async function mouseEnterHandler(
 
   const targetUrl = new URL(link.href)
   const hash = decodeURIComponent(targetUrl.hash)
+  const dimensionPopover =
+    hash !== "" &&
+    decodeURIComponent(targetUrl.pathname)
+      .toLocaleLowerCase("ru")
+      .includes("пояснения-к-размерностям")
   targetUrl.hash = ""
   targetUrl.search = ""
-  const popoverId = `popover-${link.pathname}`
+  const popoverId = `popover-${link.pathname}${dimensionPopover ? hash : ""}`
   const prevPopoverElement = document.getElementById(popoverId)
 
   // dont refetch if there's already a popover
@@ -111,6 +116,19 @@ async function mouseEnterHandler(
         el.id = targetID
       })
       removeDuplicatePopoverTitle(html)
+      if (dimensionPopover) {
+        const heading = html.getElementById(`popover-internal-${hash.slice(1)}`)
+        if (!heading || !/^H[1-6]$/.test(heading.tagName)) return
+        popoverElement.classList.add("dimension-popover")
+        let sibling = heading.nextElementSibling
+        popoverInner.appendChild(heading)
+        while (sibling && !/^H[1-4]$/.test(sibling.tagName)) {
+          const next = sibling.nextElementSibling
+          popoverInner.appendChild(sibling)
+          sibling = next
+        }
+        break
+      }
       const elts = [...html.getElementsByClassName("popover-hint")]
       if (elts.length === 0) return
 

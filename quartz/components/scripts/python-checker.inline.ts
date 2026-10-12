@@ -208,7 +208,14 @@ const resetWorker = () => {
   workerUrl = undefined
 }
 
+const readableTests = (tests: string) =>
+  tests
+    .split("\n")
+    .filter((line) => !line.includes("__stderr__"))
+    .join("\n")
+
 const runPython = (code: string, tests: string, timeoutMs: number): Promise<PythonRunResult> => {
+  tests = readableTests(tests)
   const activeWorker = ensureWorker()
   const id = nextRunId++
 
@@ -425,7 +432,7 @@ const splitExpected = (test: string) => {
 
 const renderTestPlan = (output: HTMLElement, tests: string, hidden = false) => {
   output.innerHTML = ""
-  const rows = tests
+  const rows = readableTests(tests)
     .split("\n")
     .map((test) => test.trim())
     .filter(Boolean)
@@ -478,16 +485,19 @@ const appendOutputBlock = (output: HTMLElement, label: string, value: string) =>
 
 const renderResult = (output: HTMLElement, result: PythonRunResult, hiddenTests = false) => {
   output.innerHTML = ""
-  appendOutputBlock(output, "PROGRAM OUTPUT", result.stdout)
-  appendOutputBlock(output, "PYTHON ERROR", result.stderr)
+  appendOutputBlock(output, "Вывод программы", result.stdout)
+  if (!result.codeOk) {
+    const lastLine = result.stderr.trim().split("\n").at(-1) ?? "Ошибка в коде"
+    appendOutputBlock(output, "Ошибка в коде", lastLine)
+  }
 
   const total = result.passed.length + result.failed.length
   if (total > 0) {
     const summary = createElement("section", "python-test-summary")
     const summaryLine = createElement("div", "python-test-summary-line")
     summaryLine.append(
-      createElement("strong", undefined, `${result.passed.length} / ${total} TESTS PASSED`),
-      createElement("span", undefined, result.failed.length ? "FAILED" : "DONE"),
+      createElement("strong", undefined, `Пройдено проверок: ${result.passed.length} из ${total}`),
+      createElement("span", undefined, result.failed.length ? "Нужно исправить" : "Готово"),
     )
     const progress = createElement("span", "python-test-progress")
     progress.style.setProperty("--python-test-progress", `${(result.passed.length / total) * 100}%`)
@@ -505,7 +515,7 @@ const renderResult = (output: HTMLElement, result: PythonRunResult, hiddenTests 
         createElement(
           "strong",
           "python-test-result-title",
-          `TEST ${test.index} · ${result.failed.includes(test) ? "FAILED" : "PASSED"}`,
+          `Проверка ${test.index} · ${result.failed.includes(test) ? "не пройдена" : "пройдена"}`,
         ),
         createElement("code", "python-test-result-check", test.check),
       )
@@ -834,7 +844,7 @@ const initPythonChecker = (root: HTMLElement) => {
 
   const renderTaskState = () => {
     if (!rail || !taskLabel || !taskPrompt) return
-    rail.replaceChildren(createElement("span", "python-task-rail-caption", "PRACTICE"))
+    rail.replaceChildren(createElement("span", "python-task-rail-caption", "ЗАДАЧИ"))
     tasks.forEach((item, index) => {
       const completed = progress.completed.includes(item.id)
       const unlocked = isUnlocked(tasks, progress.completed, index)
@@ -875,13 +885,14 @@ const initPythonChecker = (root: HTMLElement) => {
     if (currentStep) {
       const stepBounds = currentStep.getBoundingClientRect()
       const railBounds = rail.getBoundingClientRect()
-      if (stepBounds.right > railBounds.right) rail.scrollLeft += stepBounds.right - railBounds.right
+      if (stepBounds.right > railBounds.right)
+        rail.scrollLeft += stepBounds.right - railBounds.right
       if (stepBounds.left < railBounds.left) rail.scrollLeft -= railBounds.left - stepBounds.left
     }
     const final = activeIndex === tasks.length - 1
     taskLabel.textContent = final
-      ? "FINAL CHALLENGE"
-      : `PRACTICE ${String(activeIndex + 1).padStart(2, "0")} / ${String(tasks.length - 1).padStart(2, "0")}`
+      ? "ИТОГОВОЕ ЗАДАНИЕ · РЕШИТЕ, ЧТОБЫ ПРОЙТИ ДАЛЬШЕ"
+      : `ЗАДАНИЕ ${activeIndex + 1} ИЗ ${tasks.length - 1} · РЕШИТЕ, ЧТОБЫ ПРОЙТИ ДАЛЬШЕ`
     taskPrompt.textContent = tasks[activeIndex].prompt
     if (taskHint) {
       taskHint.replaceChildren()
@@ -919,41 +930,24 @@ const initPythonChecker = (root: HTMLElement) => {
     editor.focus({ preventScroll: true })
   }
 
-  if (tasks.length) {
-    const heading = [
-      ...document.querySelectorAll<HTMLElement>(".coding-lesson-reading article h3"),
-    ].find((element) => element.textContent?.trim() === "Задачи")
-    if (heading?.nextElementSibling?.tagName === "OL") {
-      const summary = createElement("section", "coding-practice-summary")
-      const headingText = createElement("h3", undefined, "Практика")
-      const detail = createElement(
-        "p",
-        undefined,
-        "Короткие упражнения закрепят тему. Затем откроется итоговое задание.",
+  for (const heading of document.querySelectorAll<HTMLElement>(
+    ".coding-lesson-reading article h2, .coding-lesson-reading article h3",
+  )) {
+    if (
+      !/^(Задачи|Задача на ошибку|Предскажи вывод|Мини-проверка|Мини-челлендж на \d+ минуты?|Подсказка к итогу)$/.test(
+        heading.textContent?.trim() ?? "",
       )
-      const count = createElement("span", "coding-practice-progress")
-      count.dataset.practiceProgress = ""
-      const action = createElement(
-        "button",
-        "coding-practice-action",
-        "Перейти к текущей задаче →",
-      ) as HTMLButtonElement
-      action.type = "button"
-      action.addEventListener("click", () => {
-        selectTask(firstIncomplete(tasks, progress.completed))
-        if (matchMedia("(max-width: 900px)").matches)
-          root.scrollIntoView({ behavior: "smooth", block: "start" })
-        editor.focus({ preventScroll: true })
-      })
-      summary.append(headingText, detail, count, action)
-      let sibling: Element | null = heading.nextElementSibling
-      while (sibling && !/^H[1-3]$/.test(sibling.tagName)) {
-        const next: Element | null = sibling.nextElementSibling
-        sibling.remove()
-        sibling = next
-      }
-      heading.replaceWith(summary)
+    )
+      continue
+    let sibling = heading.nextElementSibling
+    while (sibling && !/^H[1-3]$/.test(sibling.tagName)) {
+      const next = sibling.nextElementSibling
+      sibling.remove()
+      sibling = next
     }
+    heading.remove()
+  }
+  if (tasks.length) {
     document.querySelectorAll<HTMLAnchorElement>("[data-coding-next]").forEach((link) =>
       link.addEventListener("click", (event) => {
         if (!progress.completed.includes("final")) event.preventDefault()

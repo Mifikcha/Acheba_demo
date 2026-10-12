@@ -1,5 +1,118 @@
 @use "./variables.scss" as *;
 
+// Task screenshots retain their lettering while their dark or light paper blends into the site.
+article img[src*="pasted-image"] {
+  mix-blend-mode: lighten;
+}
+
+:root[saved-theme="light"] article img[src*="pasted-image"] {
+  filter: invert(1) hue-rotate(180deg) contrast(1.2);
+  mix-blend-mode: multiply;
+}
+
+.callout[data-callout] {
+  --color: var(--secondary);
+  --border: color-mix(in srgb, var(--color) 58%, transparent);
+  --bg: color-mix(in srgb, var(--color) 17%, var(--light));
+  background-color: var(--bg);
+  border-color: var(--border);
+}
+
+.callout[data-callout="info"],
+.callout[data-callout="todo"] {
+  --color: var(--tn-cyan);
+}
+.callout[data-callout="tip"],
+.callout[data-callout="success"] {
+  --color: var(--tn-green);
+}
+.callout[data-callout="warning"],
+.callout[data-callout="question"] {
+  --color: var(--tn-orange);
+}
+.callout[data-callout="failure"],
+.callout[data-callout="danger"],
+.callout[data-callout="bug"] {
+  --color: var(--tn-red);
+}
+.callout[data-callout="example"] {
+  --color: var(--tn-magenta);
+}
+
+:root[saved-theme="light"] .callout[data-callout="info"],
+:root[saved-theme="light"] .callout[data-callout="todo"] {
+  --color: #286b76;
+}
+:root[saved-theme="light"] .callout[data-callout="tip"],
+:root[saved-theme="light"] .callout[data-callout="success"] {
+  --color: #286e46;
+}
+:root[saved-theme="light"] .callout[data-callout="warning"],
+:root[saved-theme="light"] .callout[data-callout="question"] {
+  --color: #9a531d;
+}
+:root[saved-theme="light"] .callout[data-callout="failure"],
+:root[saved-theme="light"] .callout[data-callout="danger"],
+:root[saved-theme="light"] .callout[data-callout="bug"] {
+  --color: #a04148;
+}
+:root[saved-theme="light"] .callout[data-callout="example"] {
+  --color: #744c99;
+}
+
+body[data-slug*="физика/_разборы-задач"] .callout-title-inner {
+  font-weight: 700;
+}
+
+.coding-workbench .python-checker-task {
+  border-bottom-color: var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 15%, var(--python-editor-bg));
+  color: var(--python-editor-fg);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.coding-workbench .python-task-label {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.dimension-popover > .popover-inner {
+  width: min(30rem, calc(100vw - 2rem));
+  max-height: min(24rem, 60vh);
+  padding: 1rem;
+}
+
+.dimension-popover h4 {
+  margin: 0 0 0.6rem;
+}
+
+.coding-task-jump {
+  display: none;
+}
+
+@media (max-width: 899px) {
+  .coding-task-jump {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.25rem;
+    color: var(--secondary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .coding-lesson-progress {
+    display: none;
+  }
+  #coding-workbench {
+    scroll-margin-top: 3.25rem;
+  }
+}
+
 // put your custom CSS here!
 
 @font-face {
@@ -68,8 +181,8 @@
   --gray: var(--tn-comment) !important;
   --darkgray: var(--tn-fg-dark) !important;
   --dark: var(--tn-fg) !important;
-  --secondary: var(--tn-magenta) !important;
-  --tertiary: var(--tn-cyan) !important;
+  --secondary: #f2ce68 !important;
+  --tertiary: var(--tn-magenta) !important;
   --text-accent: var(--secondary) !important;
   --text-accent-hover: var(--tertiary) !important;
   --link-color: var(--secondary) !important;
@@ -108,8 +221,8 @@
   --gray: var(--ap-light-muted) !important;
   --darkgray: #514a45 !important;
   --dark: var(--ap-light-text) !important;
-  --secondary: var(--ap-light-accent) !important;
-  --tertiary: var(--ap-light-accent-2) !important;
+  --secondary: #875719 !important;
+  --tertiary: #386d70 !important;
   --text-accent: var(--secondary) !important;
   --text-accent-hover: var(--tertiary) !important;
   --link-color: var(--secondary) !important;
@@ -2869,7 +2982,7 @@ body:is([data-slug="физика/index"], [data-slug="математика/index
   }
 
   :root[data-sidebar-left="open"] .mobile-sidebar-toggle {
-    left: calc(min(86vw, 320px) + 0.7rem);
+    left: 0.75rem;
   }
 
   body[data-slug] .page {

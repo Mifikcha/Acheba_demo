@@ -190,6 +190,30 @@ describe("mock analytics provider", () => {
       ),
     )
   })
+
+  test("demo progress grows with the selected period and stays recent", async () => {
+    const { filterSnapshot, loadAnalyticsSnapshot } = await analytics()
+    const { DEMO_STUDENT_ID, MockStudentAnalyticsProvider } =
+      await import("./student-analytics.mock")
+    const now = new Date()
+    const snapshot = await loadAnalyticsSnapshot(
+      new MockStudentAnalyticsProvider(),
+      DEMO_STUDENT_ID,
+      now,
+    )
+    assert.ok(snapshot)
+    const periods = (["7d", "30d", "90d"] as const).map((range) =>
+      filterSnapshot(snapshot, "all", range, now),
+    )
+    const completion = periods.map(
+      (period) =>
+        period.topicProgress.reduce((sum, topic) => sum + topic.completion, 0) /
+        period.topics.length,
+    )
+    assert.ok(completion[0] > 0 && completion[0] < completion[1] && completion[1] < completion[2])
+    assert.ok(periods[0].exams.length >= 2)
+    assert.ok(periods[0].attempts.length >= 5)
+  })
 })
 
 describe("shell analytics adapter", () => {

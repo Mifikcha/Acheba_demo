@@ -13,10 +13,19 @@ import type {
 
 export const DEMO_STUDENT_ID = "demo-student"
 
+// Keep the illustrative timeline useful whenever the demo is opened.
+const demoToday = new Date()
+demoToday.setUTCHours(12, 0, 0, 0)
+const daysAgo = (days: number) => {
+  const date = new Date(demoToday)
+  date.setUTCDate(date.getUTCDate() - days)
+  return date.toISOString().slice(0, 10)
+}
+
 const profile: StudentProfile = {
   id: DEMO_STUDENT_ID,
   displayName: "Мира",
-  createdAt: "2026-07-14T09:00:00+05:00",
+  createdAt: `${daysAgo(90)}T09:00:00+05:00`,
   classLevel: "11 класс",
   targetExam: "ЕГЭ · профильная математика и физика",
   targetScore: 85,
@@ -125,31 +134,14 @@ const tasks: Task[] = topics.flatMap((topic, topicIndex) =>
 
 const activeTopicIds = topics.slice(0, 11).map((topic) => topic.id)
 const attemptDates = [
-  "2026-08-04",
-  "2026-08-06",
-  "2026-08-11",
-  "2026-08-12",
-  "2026-08-18",
-  "2026-08-21",
-  "2026-08-29",
-  "2026-09-01",
-  "2026-09-03",
-  "2026-09-04",
-  "2026-09-10",
-  "2026-09-12",
-  "2026-09-17",
-  "2026-09-18",
-  "2026-09-23",
-  "2026-09-24",
-  "2026-09-27",
-  "2026-09-29",
-  "2026-09-30",
-]
+  84, 80, 76, 72, 68, 63, 59, 55, 51, 47, 43, 39, 35, 32, 29, 26, 23, 20, 17, 14, 12, 10, 8, 6, 5,
+  4, 3, 2,
+].map(daysAgo)
 
-const attempts: TaskAttempt[] = Array.from({ length: 48 }, (_, index) => {
+const attempts: TaskAttempt[] = Array.from({ length: 96 }, (_, index) => {
   const topicId = activeTopicIds[(index * 5 + Math.floor(index / 7)) % activeTopicIds.length]
   const task = tasks.find((item) => item.id === `${topicId}-${(index % 3) + 1}`)!
-  const day = attemptDates[(index * 7) % attemptDates.length]
+  const day = attemptDates[(index * 11 + Math.floor(index / 9)) % attemptDates.length]
   const maxScore = task.maxScore ?? 1
   const weak = topicId === "logarithms" || topicId === "circuits" || topicId === "algorithms"
   const score = weak
@@ -161,7 +153,7 @@ const attempts: TaskAttempt[] = Array.from({ length: 48 }, (_, index) => {
     : index % 7 === 0
       ? Math.max(0, maxScore - 1)
       : maxScore
-  const completed = index !== 46
+  const completed = index !== 94
   return {
     id: `attempt-${index + 1}`,
     studentId: DEMO_STUDENT_ID,
@@ -181,11 +173,16 @@ const attempts: TaskAttempt[] = Array.from({ length: 48 }, (_, index) => {
 })
 
 const exams: ExamResult[] = [
-  ["exam-1", "diagnostic", "mathematics", "2026-08-02", 58],
-  ["exam-2", "mock_exam", "physics", "2026-08-16", 64],
-  ["exam-3", "mock_exam", "mathematics", "2026-09-02", 72],
-  ["exam-4", "mock_exam", "physics", "2026-09-16", 68],
-  ["exam-5", "mock_exam", "mathematics", "2026-09-28", 77],
+  ["exam-1", "diagnostic", "mathematics", daysAgo(82), 55],
+  ["exam-2", "mock_exam", "physics", daysAgo(69), 62],
+  ["exam-3", "mock_exam", "mathematics", daysAgo(56), 59],
+  ["exam-4", "mock_exam", "physics", daysAgo(43), 67],
+  ["exam-5", "mock_exam", "mathematics", daysAgo(31), 65],
+  ["exam-6", "mock_exam", "physics", daysAgo(24), 71],
+  ["exam-7", "mock_exam", "mathematics", daysAgo(16), 69],
+  ["exam-8", "mock_exam", "physics", daysAgo(10), 76],
+  ["exam-9", "mock_exam", "mathematics", daysAgo(6), 73],
+  ["exam-10", "mock_exam", "physics", daysAgo(2), 79],
 ].map(([id, examType, subject, date, finalScore]) => ({
   id: String(id),
   studentId: DEMO_STUDENT_ID,
@@ -198,25 +195,7 @@ const exams: ExamResult[] = [
   source: "Учебный пробник H&D",
 }))
 
-const sessionDates = [
-  "2026-08-04",
-  "2026-08-06",
-  "2026-08-11",
-  "2026-08-18",
-  "2026-08-21",
-  "2026-08-29",
-  "2026-09-01",
-  "2026-09-03",
-  "2026-09-10",
-  "2026-09-12",
-  "2026-09-17",
-  "2026-09-18",
-  "2026-09-23",
-  "2026-09-24",
-  "2026-09-27",
-  "2026-09-29",
-  "2026-09-30",
-]
+const sessionDates = attemptDates.filter((_, index) => index % 4 !== 1)
 const sessions: StudySession[] = sessionDates.map((date, index) => {
   const topic = topics[(index * 3) % topics.length]
   return {
